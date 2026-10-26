@@ -81,7 +81,7 @@
       [
         "react-native-google-mobile-ads",
         {
-          "androidAppId": "ca-app-pub-3940256099942544~3347511713",
+          "androidAppId": "ca-app-pub-4813456250415183~3839968739",
           "iosAppId": "ca-app-pub-3940256099942544~1458002511",
           "userTrackingUsageDescription": "QRCraft usa este identificador para mostrar anuncios más relevantes si aceptas el seguimiento."
         }
@@ -92,9 +92,9 @@
     "extra": {
       "admob": {
         "android": {
-          "banner": "ca-app-pub-3940256099942544/6300978111",
-          "interstitial": "ca-app-pub-3940256099942544/1033173712",
-          "rewarded": "ca-app-pub-3940256099942544/5224354917"
+          "banner": "ca-app-pub-4813456250415183/9554409978",
+          "interstitial": "ca-app-pub-4813456250415183/7911697808",
+          "rewarded": "ca-app-pub-4813456250415183/7331571313"
         },
         "ios": {
           "banner": "ca-app-pub-3940256099942544/2934735716",

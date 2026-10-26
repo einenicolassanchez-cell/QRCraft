@@ -59,11 +59,12 @@ AdMob y otros módulos nativos no están disponibles dentro de Expo Go. Usa una 
 
 ## Anuncios y compras
 
-La configuración inicial usa los identificadores de prueba oficiales de Google AdMob y no está vinculada a una cuenta AdMob personal. Antes de distribuir la aplicación:
+Android está configurado con los IDs de la cuenta AdMob del propietario y las unidades Banner, Intersticial y Recompensado de QRCraft. iOS conserva IDs de prueba hasta configurar una app y sus unidades para esa plataforma. La configuración de AdMob define los IDs, pero la publicación efectiva de anuncios depende de la aprobación y el estado de la cuenta/app en AdMob.
 
-1. Crea unidades de anuncios y aplicaciones en AdMob.
-2. Sustituye los IDs de prueba de `app.json` por los IDs de producción.
-3. Revisa los consentimientos, divulgaciones y políticas de anuncios aplicables a tus usuarios y mercados.
+Antes de distribuir la aplicación:
+
+1. Confirma en AdMob que la aplicación y las unidades están activas y que no hay tareas de verificación pendientes.
+2. Revisa los consentimientos, divulgaciones y políticas de anuncios aplicables a tus usuarios y mercados.
 
 En Expo Go se muestran anuncios de demostración en lugar de anuncios nativos. La activación de QRCraft Pro también es una simulación local: no realiza cobros ni está conectada a compras integradas. Antes de vender Pro, integra y prueba una solución de compras in-app y ajusta los términos y la política de privacidad.
 
