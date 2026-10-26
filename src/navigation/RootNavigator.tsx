@@ -6,7 +6,6 @@ import { TabBar } from './TabBar';
 import { HistoryScreen } from '../screens/HistoryScreen';
 import { CreateScreen } from '../screens/CreateScreen';
 import { LegalScreen } from '../screens/LegalScreen';
-import { ProScreen } from '../screens/ProScreen';
 import { ScanScreen } from '../screens/ScanScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
 import type { MainTabParamList, RootStackParamList } from './types';
@@ -43,11 +42,6 @@ export function RootNavigator() {
       <Stack.Screen name="Main" component={MainTabs} />
       <Stack.Screen name="Settings" component={SettingsScreen} />
       <Stack.Screen name="Legal" component={LegalScreen} />
-      <Stack.Screen
-        name="Pro"
-        component={ProScreen}
-        options={{ animation: 'slide_from_bottom' }}
-      />
     </Stack.Navigator>
   );
 }

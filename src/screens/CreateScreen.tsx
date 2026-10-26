@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import {
   Alert,
   Platform,
@@ -16,7 +16,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 
 import { AdBanner } from '../components/AdBanner';
-import { Button, TextLink } from '../components/Buttons';
+import { Button } from '../components/Buttons';
 import { Field } from '../components/Field';
 import { Card, Section, SegmentedControl } from '../components/Layout';
 import { QRArt, type QRArtHandle } from '../components/QRArt';
@@ -103,7 +103,7 @@ function contrastRatio(foreground: string, background: string) {
 export function CreateScreen() {
   const { width } = useWindowDimensions();
   const navigation = useNavigation<AppTabNavigation>();
-  const { addEntry, registerExport, settings, updateSettings } = useStore();
+  const { addEntry, registerExport } = useStore();
   const { showToast } = useToast();
   const { showInterstitial, showRewarded } = useAds();
   const [category, setCategory] = useState<QRCategory>('url');
@@ -115,13 +115,9 @@ export function CreateScreen() {
   const [shape, setShape] = useState<ModuleShape>('square');
   const [attempted, setAttempted] = useState(false);
   const [action, setAction] = useState<ExportAction>(null);
-  const [hdUnlocked, setHdUnlocked] = useState(settings.pro);
+  const [hdUnlocked, setHdUnlocked] = useState(false);
   const [unlocking, setUnlocking] = useState(false);
   const qrRef = useRef<QRArtHandle>(null);
-
-  useEffect(() => {
-    if (settings.pro) setHdUnlocked(true);
-  }, [settings.pro]);
 
   const result = useMemo(
     () => buildQrPayload(category, values),
@@ -163,12 +159,7 @@ export function CreateScreen() {
 
   const afterExport = (countsForInterstitial: boolean) => {
     const count = registerExport();
-    if (
-      countsForInterstitial &&
-      !settings.pro &&
-      count > 0 &&
-      count % 3 === 0
-    ) {
+    if (countsForInterstitial && count > 0 && count % 3 === 0) {
       setTimeout(() => {
         void showInterstitial();
       }, 700);
@@ -222,7 +213,7 @@ export function CreateScreen() {
 
   const handleHd = async () => {
     if (!requireValid() || action) return;
-    if (!hdUnlocked && !settings.pro) {
+    if (!hdUnlocked) {
       showToast('Desbloquea la exportación HD primero.', 'info');
       return;
     }
@@ -245,7 +236,7 @@ export function CreateScreen() {
 
   const handleSvg = async () => {
     if (!requireValid() || action) return;
-    if (!hdUnlocked && !settings.pro) {
+    if (!hdUnlocked) {
       showToast('Desbloquea la exportación HD primero.', 'info');
       return;
     }
@@ -291,8 +282,6 @@ export function CreateScreen() {
       setUnlocking(false);
     }
   };
-
-  const goPro = () => navigation.navigate('Pro');
 
   return (
     <View style={styles.root}>
@@ -874,7 +863,7 @@ export function CreateScreen() {
         </Section>
 
         <Section
-          title="Exportación profesional"
+          title="Exportación HD y SVG"
           caption="Para imprimir, web o gran formato"
         >
           <Card style={styles.hdCard}>
@@ -883,22 +872,14 @@ export function CreateScreen() {
                 <Feather name="award" size={20} color={colors.primaryBright} />
               </View>
               <View style={styles.hdHeaderText}>
-                <Text style={styles.hdTitle}>
-                  {settings.pro ? 'Incluido en Pro' : 'Calidad de imprenta'}
-                </Text>
+                <Text style={styles.hdTitle}>Calidad de imprenta</Text>
                 <Text style={styles.hdDescription}>
                   PNG en 2048 px y SVG vectorial, sin pérdida de nitidez.
                 </Text>
               </View>
-              {settings.pro ? (
-                <View style={styles.proBadge}>
-                  <Feather name="star" size={10} color={colors.backgroundDeep} />
-                  <Text style={styles.proBadgeText}>PRO</Text>
-                </View>
-              ) : null}
             </View>
 
-            {hdUnlocked || settings.pro ? (
+            {hdUnlocked ? (
               <>
                 <View style={styles.hdActions}>
                   <Button
@@ -925,16 +906,8 @@ export function CreateScreen() {
                   />
                 </View>
                 <Text style={styles.hdFootnote}>
-                  {settings.pro
-                    ? 'Tu plan Pro mantiene los anuncios y los límites fuera.'
-                    : 'HD desbloqueado en esta sesión con un anuncio bonificado.'}
+                  HD desbloqueado en esta sesión con un anuncio bonificado.
                 </Text>
-                {!settings.pro ? (
-                  <TextLink
-                    label="Hazte Pro y desbloquea todo para siempre"
-                    onPress={goPro}
-                  />
-                ) : null}
               </>
             ) : (
               <>
@@ -954,10 +927,6 @@ export function CreateScreen() {
                   loading={unlocking}
                   disabled={unlocking}
                 />
-                <TextLink
-                  label="O elimina los anuncios con QRCraft Pro"
-                  onPress={goPro}
-                />
               </>
             )}
           </Card>
@@ -972,7 +941,7 @@ export function CreateScreen() {
         </View>
       </ScrollView>
 
-      <AdBanner onUpgrade={goPro} />
+      <AdBanner />
     </View>
   );
 }
@@ -1345,21 +1314,6 @@ const styles = StyleSheet.create({
     fontSize: 11,
     lineHeight: 15,
     color: colors.textMuted,
-  },
-  proBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 3,
-    backgroundColor: colors.accent,
-    borderRadius: radius.full,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-  },
-  proBadgeText: {
-    fontSize: 8.5,
-    fontWeight: '900',
-    letterSpacing: 0.6,
-    color: colors.backgroundDeep,
   },
   hdActions: {
     flexDirection: 'row',

@@ -230,7 +230,7 @@ export function HistoryScreen() {
         }
       />
 
-      <AdBanner onUpgrade={() => navigation.navigate('Pro')} />
+      <AdBanner />
 
       <ScanResultModal
         visible={!!selected && selected.kind === 'scanned'}

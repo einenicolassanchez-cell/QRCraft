@@ -18,7 +18,6 @@ import {
 import { Feather } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import { useStore } from '../store/StoreProvider';
 import { colors, gradients, radius, spacing } from '../theme';
 import { getAdUnitId, getAdsSdk, type AdsSdk } from './sdk';
 
@@ -112,7 +111,6 @@ function showNativeRewarded(sdk: AdsSdk): Promise<boolean> {
 }
 
 export function AdsProvider({ children }: { children: React.ReactNode }) {
-  const { settings } = useStore();
   const [mock, setMock] = useState<MockState>(null);
   const [loadingNative, setLoadingNative] = useState(false);
   const resolver = useRef<((value: boolean) => void) | null>(null);
@@ -155,7 +153,6 @@ export function AdsProvider({ children }: { children: React.ReactNode }) {
   );
 
   const showInterstitial = useCallback(async () => {
-    if (settings.pro) return;
     if (!sdk) {
       await runMock('interstitial');
       return;
@@ -166,10 +163,9 @@ export function AdsProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setLoadingNative(false);
     }
-  }, [runMock, sdk, settings.pro]);
+  }, [runMock, sdk]);
 
   const showRewarded = useCallback(async () => {
-    if (settings.pro) return true;
     if (!sdk) {
       return runMock('rewarded');
     }
@@ -179,7 +175,7 @@ export function AdsProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setLoadingNative(false);
     }
-  }, [runMock, sdk, settings.pro]);
+  }, [runMock, sdk]);
 
   const value = useMemo(
     () => ({ showInterstitial, showRewarded }),

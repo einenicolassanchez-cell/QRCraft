@@ -66,7 +66,7 @@ Antes de distribuir la aplicación:
 1. Confirma en AdMob que la aplicación y las unidades están activas y que no hay tareas de verificación pendientes.
 2. Revisa los consentimientos, divulgaciones y políticas de anuncios aplicables a tus usuarios y mercados.
 
-En Expo Go se muestran anuncios de demostración en lugar de anuncios nativos. QRCraft Pro no está disponible para compra en esta versión; no procesa pagos ni concede beneficios Pro. Antes de ofrecerlo, integra y prueba una solución de compras in-app y ajusta los términos y la política de privacidad.
+En Expo Go se muestran anuncios de demostración en lugar de anuncios nativos. Esta versión no incluye compras ni suscripciones dentro de la aplicación.
 
 ## Permisos y privacidad
 

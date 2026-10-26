@@ -51,7 +51,6 @@ export interface AppSettings {
   sound: boolean;
   vibration: boolean;
   autoOpenUrls: boolean;
-  pro: boolean;
   exportCount: number;
 }
 

@@ -45,7 +45,7 @@ export const PRIVACY_POLICY: LegalDocument = {
       title: '4. Publicidad y Google AdMob',
       paragraphs: [
         'La versión gratuita muestra anuncios mediante Google AdMob. AdMob puede recoger identificadores del dispositivo, datos aproximados de ubicación y datos de uso para mostrar y medir anuncios, de acuerdo con sus propias políticas.',
-        'QRCraft solicita anuncios no personalizados por defecto. Puedes eliminar los anuncios adquiriendo QRCraft Pro.',
+        'QRCraft solicita anuncios no personalizados por defecto. Esta versión no ofrece compras integradas.',
         'Consulta la política de privacidad de Google en policies.google.com/privacy para obtener más información sobre AdMob.',
       ],
     },
@@ -108,10 +108,10 @@ export const TERMS_OF_USE: LegalDocument = {
       ],
     },
     {
-      title: '4. Anuncios y versión Pro',
+      title: '4. Anuncios',
       paragraphs: [
-        'La versión gratuita incluye anuncios de Google AdMob. QRCraft Pro y sus beneficios previstos todavía no están disponibles para compra en esta versión. No se procesan pagos ni se concede acceso Pro.',
-        'Cuando se habiliten compras, se procesarán a través de la tienda correspondiente y estarán sujetas a sus políticas, condiciones y reembolsos.',
+        'QRCraft muestra anuncios de Google AdMob. AdMob puede recopilar y procesar datos según sus propias políticas de privacidad.',
+        'Esta versión no incluye compras dentro de la aplicación ni suscripciones.',
       ],
     },
     {

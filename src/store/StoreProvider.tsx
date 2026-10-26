@@ -22,7 +22,6 @@ const DEFAULT_SETTINGS: AppSettings = {
   sound: true,
   vibration: true,
   autoOpenUrls: false,
-  pro: false,
   exportCount: 0,
 };
 
@@ -89,7 +88,6 @@ function sanitizeState(value: unknown): PersistedState {
       sound: Boolean(settings.sound),
       vibration: Boolean(settings.vibration),
       autoOpenUrls: Boolean(settings.autoOpenUrls),
-      pro: false,
       exportCount: Number.isFinite(settings.exportCount)
         ? Math.max(0, Number(settings.exportCount))
         : 0,

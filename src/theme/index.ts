@@ -27,7 +27,6 @@ export const colors = {
 export const gradients = {
   brand: ['#0284C7', '#0E7490'] as const,
   accent: ['#059669', '#10B981'] as const,
-  pro: ['#0284C7', '#10B981'] as const,
   cameraTop: ['rgba(8, 15, 31, 0.96)', 'rgba(8, 15, 31, 0.55)', 'transparent'] as const,
   cameraBottom: ['transparent', 'rgba(8, 15, 31, 0.82)', 'rgba(8, 15, 31, 0.98)'] as const,
 };

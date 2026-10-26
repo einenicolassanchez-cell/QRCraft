@@ -1,41 +1,27 @@
 import React, { useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
 import { getAdUnitId, getAdsSdk } from '../ads/sdk';
-import { useStore } from '../store/StoreProvider';
 import { colors, radius, spacing } from '../theme';
 
-export function AdBanner({ onUpgrade }: { onUpgrade?: () => void }) {
-  const { settings } = useStore();
+export function AdBanner() {
   const [failed, setFailed] = useState(false);
   const sdk = useMemo(() => getAdsSdk(), []);
 
-  if (settings.pro) return null;
-
   if (!sdk || failed) {
     return (
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel="Espacio publicitario. Conoce QRCraft Pro"
-        onPress={onUpgrade}
-        disabled={!onUpgrade}
-        style={({ pressed }) => [
-          styles.placeholder,
-          { opacity: pressed ? 0.8 : 1 },
-        ]}
-      >
+      <View style={styles.placeholder}>
         <View style={styles.adLabel}>
           <Text style={styles.adLabelText}>PUBLICIDAD</Text>
         </View>
         <View style={styles.placeholderBody}>
-          <Feather name="shield" size={14} color={colors.primaryBright} />
+          <Feather name="info" size={14} color={colors.primaryBright} />
           <Text style={styles.placeholderText}>
-            Sin anuncios con QRCraft Pro
+            Los anuncios se muestran en la versión instalada.
           </Text>
-          <Feather name="chevron-right" size={14} color={colors.textFaint} />
         </View>
-      </Pressable>
+      </View>
     );
   }
 

@@ -12,7 +12,6 @@ export type RootStackParamList = {
   Main: NavigatorScreenParams<MainTabParamList> | undefined;
   Settings: undefined;
   Legal: { type: 'privacy' | 'terms' };
-  Pro: undefined;
 };
 
 export type AppTabNavigation = CompositeNavigationProp<

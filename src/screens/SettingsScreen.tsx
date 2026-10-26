@@ -11,7 +11,6 @@ import {
 import { Feather } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 import { useNavigation } from '@react-navigation/native';
-import { LinearGradient } from 'expo-linear-gradient';
 
 import { Logo } from '../components/Logo';
 import { ScreenHeader } from '../components/ScreenHeader';
@@ -20,7 +19,7 @@ import { useToast } from '../components/ToastProvider';
 import type { AppStackNavigation } from '../navigation/types';
 import { tapFeedback } from '../services/feedback';
 import { useStore } from '../store/StoreProvider';
-import { colors, gradients, radius, spacing } from '../theme';
+import { colors, radius, spacing } from '../theme';
 
 function SettingRow({
   icon,
@@ -164,48 +163,6 @@ export function SettingsScreen() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <Pressable
-          accessibilityRole="button"
-          onPress={() => navigation.navigate('Pro')}
-          style={({ pressed }) => ({ opacity: pressed ? 0.86 : 1 })}
-        >
-          <LinearGradient
-            colors={
-              settings.pro
-                ? [gradients.accent[0], gradients.accent[1]]
-                : [gradients.pro[0], gradients.pro[1]]
-            }
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.proCard}
-          >
-            <View style={styles.proIcon}>
-              <Feather
-                name={settings.pro ? 'check' : 'star'}
-                size={20}
-                color={colors.backgroundDeep}
-              />
-            </View>
-            <View style={styles.proText}>
-              <Text style={styles.proTitle}>
-                {settings.pro ? 'QRCraft Pro activo' : 'QRCraft Pro · Próximamente'}
-              </Text>
-              <Text style={styles.proSubtitle}>
-                {settings.pro
-                  ? 'Sin anuncios y con exportación HD desbloqueada.'
-                  : 'Las compras todavía no están disponibles.'}
-              </Text>
-            </View>
-            <View style={styles.proChevron}>
-              <Feather
-                name={settings.pro ? 'settings' : 'arrow-right'}
-                size={16}
-                color={colors.backgroundDeep}
-              />
-            </View>
-          </LinearGradient>
-        </Pressable>
-
         <Section title="Escaneo">
           <Card padded={false} style={styles.card}>
             <ToggleRow
@@ -266,18 +223,6 @@ export function SettingsScreen() {
         <Section title="Soporte">
           <Card padded={false} style={styles.card}>
             <SettingRow
-              icon="star"
-              title="QRCraft Pro"
-              subtitle={
-                settings.pro
-                  ? 'Tu suscripción está activa.'
-                  : 'Elimina anuncios y exporta sin límites.'
-              }
-              onPress={() => navigation.navigate('Pro')}
-              iconColor={colors.warning}
-            />
-            <Divider />
-            <SettingRow
               icon="info"
               title="Versión de la app"
               subtitle={`QRCraft ${version} · Hecho para escanear mejor`}
@@ -312,44 +257,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.xl,
     paddingBottom: spacing.xxxl,
     gap: spacing.xxl,
-  },
-  proCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    borderRadius: radius.lg,
-    padding: spacing.lg,
-  },
-  proIcon: {
-    width: 42,
-    height: 42,
-    borderRadius: 13,
-    backgroundColor: 'rgba(255,255,255,0.22)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  proText: {
-    flex: 1,
-    gap: 3,
-  },
-  proTitle: {
-    fontSize: 16,
-    fontWeight: '800',
-    letterSpacing: -0.2,
-    color: colors.white,
-  },
-  proSubtitle: {
-    fontSize: 11,
-    lineHeight: 15,
-    color: 'rgba(255,255,255,0.82)',
-  },
-  proChevron: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   card: {
     overflow: 'hidden',
