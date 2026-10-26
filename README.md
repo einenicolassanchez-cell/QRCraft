@@ -43,7 +43,7 @@ La exportación Android escribe los bundles en `dist/` de forma predeterminada. 
 npm run export:android -- --output-dir /tmp/qrcraft-export
 ```
 
-Conecta y autoriza un único teléfono Android por USB y ejecuta `npm run update:android` para regenerar el proyecto nativo, compilar una versión ARM64 autónoma, guardar `build/QRCraft.apk` e instalar/abrir la app en el teléfono. El script necesita Android SDK, ADB, Node/npm y un JDK compatible (17 o 21). Conserva la clave de firma de depuración en `build/debug.keystore`, excluida de Git, para que las instalaciones posteriores puedan actualizar la app existente sin borrar sus datos.
+Ejecuta `npm run update:android` para regenerar el proyecto nativo y crear un APK autónomo universal para teléfonos Android ARM de 32 y 64 bits en `build/QRCraft.apk`. Puedes copiar ese APK al teléfono e instalarlo manualmente. Si conectas exactamente un teléfono Android autorizado por USB, el script también lo instala y abre; si no hay teléfono, solo compila, y si hay varios, evita elegir uno por ti. Necesita Android SDK, Node/npm y un JDK compatible (17 o 21); ADB/platform-tools es opcional. Conserva la clave de firma local en `build/debug.keystore`, excluida de Git, para actualizar instalaciones firmadas con esa misma clave.
 
 ## Compilaciones con EAS
 
