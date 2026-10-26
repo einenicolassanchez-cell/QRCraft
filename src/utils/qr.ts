@@ -46,9 +46,9 @@ export const CATEGORY_META: Record<
     color: '#F472B6',
   },
   whatsapp: {
-    label: 'WhatsApp',
+    label: 'WhatsApp directo',
     shortLabel: 'WhatsApp',
-    description: 'Chat directo con mensaje',
+    description: 'Abre un chat con mensaje listo para enviar',
     icon: 'message-circle',
     color: '#34D399',
   },
@@ -237,6 +237,9 @@ function buildQrPayloadUnchecked(
   if (!number) return empty('Escribe el número de WhatsApp con código de país.');
   if (number.length < 8) {
     return empty('El número debe incluir el código de país. Ej: 573001234567.');
+  }
+  if (number.length > 15) {
+    return empty('El número internacional no puede superar 15 dígitos.');
   }
   const message = values.whatsappMessage.trim();
   const payload = `https://wa.me/${number}${message ? `?text=${encodeURIComponent(message)}` : ''}`;

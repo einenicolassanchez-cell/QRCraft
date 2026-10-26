@@ -6,8 +6,8 @@ Aplicación móvil para escanear, crear y organizar códigos QR. Está construid
 
 - Escáner con cámara, marco y láser animado, linterna, cambio de cámara e importación desde fotos.
 - Vista de resultados para enlaces, Wi-Fi, texto, contactos, WhatsApp, correo, teléfono, SMS y ubicaciones.
-- Creación de QR para URL, redes Wi-Fi, texto, contactos vCard y WhatsApp.
-- Personalización del color, fondo y forma de los módulos; vista previa, exportación PNG y SVG.
+- Creación de QR para URL, redes Wi-Fi, texto, contactos vCard y enlaces directos a WhatsApp con mensajes sugeridos opcionales.
+- Personalización con 20 colores de módulos, 13 fondos, 6 diseños predefinidos y 3 formas; vista previa, exportación PNG y SVG.
 - Historial local de escaneos y creaciones con búsqueda, detalle y eliminación individual o completa.
 - Ajustes de sonido, vibración y apertura automática de enlaces.
 - Anuncios en Crear e Historial, intersticial después de cada tres exportaciones guardadas y anuncio bonificado para HD/SVG.

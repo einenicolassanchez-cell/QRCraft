@@ -54,6 +54,26 @@ const SHAPES: Array<{
   { value: 'dots', label: 'Puntos', icon: 'circle' },
 ];
 
+const DESIGN_PRESETS: Array<{
+  name: string;
+  color: string;
+  backgroundColor: string;
+  shape: ModuleShape;
+}> = [
+  { name: 'Clásico', color: '#0F172A', backgroundColor: '#FFFFFF', shape: 'square' },
+  { name: 'Océano', color: '#0369A1', backgroundColor: '#E0F2FE', shape: 'rounded' },
+  { name: 'Esmeralda', color: '#047857', backgroundColor: '#DCFCE7', shape: 'dots' },
+  { name: 'Lavanda', color: '#6D28D9', backgroundColor: '#EDE9FE', shape: 'rounded' },
+  { name: 'Coral', color: '#BE185D', backgroundColor: '#FCE7F3', shape: 'dots' },
+  { name: 'Dorado', color: '#78350F', backgroundColor: '#FEF3C7', shape: 'square' },
+];
+
+const WHATSAPP_MESSAGES = [
+  '¡Hola! Quiero más información.',
+  '¡Hola! Me gustaría pedir una cotización.',
+  '¡Hola! Vi tu código QR.',
+];
+
 function luminance(hex: string) {
   const value = hex.replace('#', '');
   const normalized =
@@ -526,20 +546,28 @@ export function CreateScreen() {
 
             {category === 'whatsapp' ? (
               <View style={styles.fieldStack}>
+                <View style={styles.whatsappInfo}>
+                  <Feather name="message-circle" size={17} color="#34D399" />
+                  <Text style={styles.whatsappInfoText}>
+                    Al escanear, se abrirá un chat contigo en WhatsApp. El
+                    mensaje queda listo para enviar; no se envía automáticamente.
+                  </Text>
+                </View>
                 <Field
-                  label="Número de WhatsApp"
+                  label="Tu número de WhatsApp"
                   icon="phone"
                   prefix="+"
-                  placeholder="57 300 123 4567"
+                  placeholder="573001234567"
                   value={values.whatsappPhone}
                   onChangeText={(value) =>
-                    updateValue('whatsappPhone', value)
+                    updateValue('whatsappPhone', value.replace(/\D/g, ''))
                   }
                   keyboardType="phone-pad"
-                  hint="Incluye el código de país, sin el signo +."
+                  maxLength={15}
+                  hint="Incluye el código de país. Ejemplo Colombia: 57 + tu número (máximo 15 dígitos)."
                 />
                 <Field
-                  label="Mensaje predeterminado (opcional)"
+                  label="Mensaje listo para enviar (opcional)"
                   icon="message-circle"
                   placeholder="¡Hola! Vi tu QR y quiero más información."
                   value={values.whatsappMessage}
@@ -548,7 +576,27 @@ export function CreateScreen() {
                   }
                   multiline
                   maxLength={500}
+                  hint={`${values.whatsappMessage.length}/500 · La persona puede editarlo antes de enviar.`}
                 />
+                <View style={styles.messageSuggestions}>
+                  <Text style={styles.suggestionLabel}>Ideas de mensaje</Text>
+                  <View style={styles.suggestionList}>
+                    {WHATSAPP_MESSAGES.map((message) => (
+                      <Pressable
+                        key={message}
+                        accessibilityRole="button"
+                        accessibilityLabel={`Usar mensaje: ${message}`}
+                        onPress={() => updateValue('whatsappMessage', message)}
+                        style={({ pressed }) => [
+                          styles.suggestionChip,
+                          { opacity: pressed ? 0.7 : 1 },
+                        ]}
+                      >
+                        <Text style={styles.suggestionText}>{message}</Text>
+                      </Pressable>
+                    ))}
+                  </View>
+                </View>
               </View>
             ) : null}
 
@@ -566,6 +614,91 @@ export function CreateScreen() {
           caption="Colores y formas para que tu QR destaque"
         >
           <Card style={styles.designCard}>
+            <View style={styles.designBlock}>
+              <Text style={styles.subLabel}>Diseños listos</Text>
+              <Text style={styles.designHint}>
+                Elige una combinación de color, fondo y forma.
+              </Text>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.presetList}
+              >
+                {DESIGN_PRESETS.map((preset) => {
+                  const selected =
+                    color === preset.color &&
+                    backgroundColor === preset.backgroundColor &&
+                    shape === preset.shape;
+                  return (
+                    <Pressable
+                      key={preset.name}
+                      accessibilityRole="button"
+                      accessibilityLabel={`Diseño ${preset.name}`}
+                      accessibilityState={{ selected }}
+                      onPress={() => {
+                        setColor(preset.color);
+                        setBackgroundColor(preset.backgroundColor);
+                        setShape(preset.shape);
+                      }}
+                      style={({ pressed }) => [
+                        styles.presetCard,
+                        selected && styles.presetCardSelected,
+                        { opacity: pressed ? 0.76 : 1 },
+                      ]}
+                    >
+                      <View
+                        style={[
+                          styles.presetMark,
+                          {
+                            backgroundColor: preset.backgroundColor,
+                            borderColor: `${preset.color}50`,
+                          },
+                        ]}
+                      >
+                        <View
+                          style={[
+                            styles.presetDot,
+                            {
+                              backgroundColor: preset.color,
+                              borderRadius: preset.shape === 'square' ? 2 : 8,
+                            },
+                          ]}
+                        />
+                        <View
+                          style={[
+                            styles.presetDot,
+                            styles.presetSmallDot,
+                            {
+                              backgroundColor: preset.color,
+                              borderRadius: preset.shape === 'square' ? 1 : 4,
+                            },
+                          ]}
+                        />
+                        <View
+                          style={[
+                            styles.presetDot,
+                            styles.presetSmallDot,
+                            {
+                              backgroundColor: preset.color,
+                              borderRadius: preset.shape === 'square' ? 1 : 4,
+                            },
+                          ]}
+                        />
+                      </View>
+                      <Text
+                        style={[
+                          styles.presetName,
+                          selected && styles.presetNameSelected,
+                        ]}
+                      >
+                        {preset.name}
+                      </Text>
+                    </Pressable>
+                  );
+                })}
+              </ScrollView>
+            </View>
+
             <View style={styles.designBlock}>
               <Text style={styles.subLabel}>Color de módulos</Text>
               <View style={styles.swatchRow}>
@@ -921,6 +1054,46 @@ const styles = StyleSheet.create({
   fieldStack: {
     gap: 14,
   },
+  whatsappInfo: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 9,
+    backgroundColor: 'rgba(16,185,129,0.1)',
+    borderColor: 'rgba(16,185,129,0.22)',
+    borderWidth: 1,
+    borderRadius: radius.md,
+    padding: 12,
+  },
+  whatsappInfoText: {
+    flex: 1,
+    color: colors.textMuted,
+    fontSize: 11.5,
+    lineHeight: 17,
+  },
+  messageSuggestions: {
+    gap: 8,
+  },
+  suggestionLabel: {
+    fontSize: 11.5,
+    fontWeight: '700',
+    color: colors.textMuted,
+  },
+  suggestionList: {
+    gap: 7,
+  },
+  suggestionChip: {
+    alignSelf: 'flex-start',
+    backgroundColor: colors.surfaceRaised,
+    borderColor: colors.borderSoft,
+    borderWidth: 1,
+    borderRadius: radius.full,
+    paddingHorizontal: 11,
+    paddingVertical: 7,
+  },
+  suggestionText: {
+    color: colors.textMuted,
+    fontSize: 11,
+  },
   subField: {
     gap: 8,
   },
@@ -976,6 +1149,57 @@ const styles = StyleSheet.create({
   },
   designBlock: {
     gap: 9,
+  },
+  designHint: {
+    color: colors.textFaint,
+    fontSize: 11,
+    lineHeight: 16,
+    marginTop: -5,
+  },
+  presetList: {
+    gap: 9,
+    paddingVertical: 3,
+  },
+  presetCard: {
+    alignItems: 'center',
+    gap: 6,
+    width: 76,
+    padding: 7,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.borderSoft,
+    backgroundColor: colors.surfaceSoft,
+  },
+  presetCardSelected: {
+    borderColor: colors.primaryBright,
+    backgroundColor: 'rgba(56,189,248,0.1)',
+  },
+  presetMark: {
+    width: 48,
+    height: 48,
+    borderRadius: 12,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 3,
+  },
+  presetDot: {
+    width: 14,
+    height: 14,
+  },
+  presetSmallDot: {
+    width: 8,
+    height: 8,
+  },
+  presetName: {
+    color: colors.textMuted,
+    fontSize: 10,
+    fontWeight: '600',
+  },
+  presetNameSelected: {
+    color: colors.primaryBright,
+    fontWeight: '800',
   },
   swatchRow: {
     flexDirection: 'row',
