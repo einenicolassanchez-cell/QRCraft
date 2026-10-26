@@ -33,6 +33,7 @@ npm run android
 npm run ios
 npm run typecheck
 npm run export:android
+npm run update:android
 npm run doctor
 ```
 
@@ -41,6 +42,8 @@ La exportación Android escribe los bundles en `dist/` de forma predeterminada. 
 ```bash
 npm run export:android -- --output-dir /tmp/qrcraft-export
 ```
+
+Conecta y autoriza un único teléfono Android por USB y ejecuta `npm run update:android` para regenerar el proyecto nativo, compilar una versión ARM64 autónoma, guardar `build/QRCraft.apk` e instalar/abrir la app en el teléfono. El script necesita Android SDK, ADB, Node/npm y un JDK compatible (17 o 21). Conserva la clave de firma de depuración en `build/debug.keystore`, excluida de Git, para que las instalaciones posteriores puedan actualizar la app existente sin borrar sus datos.
 
 ## Compilaciones con EAS
 
@@ -56,7 +59,7 @@ AdMob y otros módulos nativos no están disponibles dentro de Expo Go. Usa una 
 
 ## Anuncios y compras
 
-La configuración inicial usa los identificadores de prueba oficiales de Google AdMob. Antes de distribuir la aplicación:
+La configuración inicial usa los identificadores de prueba oficiales de Google AdMob y no está vinculada a una cuenta AdMob personal. Antes de distribuir la aplicación:
 
 1. Crea unidades de anuncios y aplicaciones en AdMob.
 2. Sustituye los IDs de prueba de `app.json` por los IDs de producción.

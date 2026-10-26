@@ -43,6 +43,7 @@
     "ios": "expo run:ios",
     "typecheck": "tsc --noEmit",
     "export:android": "expo export --platform android",
+    "update:android": "bash ./actualizar-app.sh",
     "doctor": "npx expo-doctor"
   },
   "private": true
