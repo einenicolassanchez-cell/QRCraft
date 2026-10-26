@@ -89,7 +89,7 @@ function sanitizeState(value: unknown): PersistedState {
       sound: Boolean(settings.sound),
       vibration: Boolean(settings.vibration),
       autoOpenUrls: Boolean(settings.autoOpenUrls),
-      pro: Boolean(settings.pro),
+      pro: false,
       exportCount: Number.isFinite(settings.exportCount)
         ? Math.max(0, Number(settings.exportCount))
         : 0,

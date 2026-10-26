@@ -188,12 +188,12 @@ export function SettingsScreen() {
             </View>
             <View style={styles.proText}>
               <Text style={styles.proTitle}>
-                {settings.pro ? 'QRCraft Pro activo' : 'Hazte QRCraft Pro'}
+                {settings.pro ? 'QRCraft Pro activo' : 'QRCraft Pro · Próximamente'}
               </Text>
               <Text style={styles.proSubtitle}>
                 {settings.pro
                   ? 'Sin anuncios y con exportación HD desbloqueada.'
-                  : 'Sin anuncios, PNG en alta definición y SVG vectorial.'}
+                  : 'Las compras todavía no están disponibles.'}
               </Text>
             </View>
             <View style={styles.proChevron}>

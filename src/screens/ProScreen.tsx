@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Alert,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,7 +12,6 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Button, TextLink } from '../components/Buttons';
 import { Card } from '../components/Layout';
 import { ScreenHeader } from '../components/ScreenHeader';
-import { useToast } from '../components/ToastProvider';
 import type { RootStackParamList } from '../navigation/types';
 import { useStore } from '../store/StoreProvider';
 import { colors, gradients, radius, spacing } from '../theme';
@@ -44,37 +42,7 @@ const BENEFITS = [
 ];
 
 export function ProScreen({ navigation }: Props) {
-  const { settings, updateSettings } = useStore();
-  const { showToast } = useToast();
-
-  const activate = () => {
-    Alert.alert(
-      'Compra de demostración',
-      'Esta compilación no procesa pagos reales. Al continuar, QRCraft Pro se activará localmente para que pruebes la experiencia sin anuncios y la exportación HD.',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Activar Pro',
-          onPress: () => {
-            updateSettings({ pro: true });
-            showToast('QRCraft Pro activado en este dispositivo');
-          },
-        },
-      ],
-    );
-  };
-
-  const restore = () => {
-    if (settings.pro) {
-      showToast('QRCraft Pro ya está activo', 'info');
-      return;
-    }
-    Alert.alert(
-      'Restaurar compra',
-      'No encontramos compras asociadas en esta demostración. En una app publicada, aquí se consultaría la tienda de aplicaciones.',
-      [{ text: 'Entendido' }],
-    );
-  };
+  const { settings } = useStore();
 
   return (
     <View style={styles.root}>
@@ -98,27 +66,22 @@ export function ProScreen({ navigation }: Props) {
             <Feather name="star" size={26} color={colors.backgroundDeep} />
           </View>
           <Text style={styles.heroEyebrow}>
-            {settings.pro ? 'SUSCRIPCIÓN ACTIVA' : 'VERSIÓN PRO'}
+            {settings.pro ? 'SUSCRIPCIÓN ACTIVA' : 'PRÓXIMAMENTE'}
           </Text>
           <Text style={styles.heroTitle}>
-            {settings.pro ? 'Todo desbloqueado' : 'Tu QR, sin límites'}
+            {settings.pro ? 'Todo desbloqueado' : 'QRCraft Pro'}
           </Text>
           <Text style={styles.heroText}>
             {settings.pro
               ? 'Gracias por apoyar QRCraft. Los anuncios están desactivados y la exportación HD está incluida.'
-              : 'Elimina los anuncios y exporta en calidad profesional. Una sola suscripción, todas las funciones.'}
+              : 'Estamos preparando las compras seguras con Google Play. Por ahora, Pro todavía no se puede activar ni comprar.'}
           </Text>
-          {!settings.pro ? (
-            <View style={styles.priceRow}>
-              <Text style={styles.price}>$1.99</Text>
-              <Text style={styles.pricePeriod}>USD / mes</Text>
-            </View>
-          ) : (
+          {settings.pro ? (
             <View style={styles.activePill}>
               <Feather name="check-circle" size={14} color={colors.backgroundDeep} />
               <Text style={styles.activePillText}>Pro activo</Text>
             </View>
-          )}
+          ) : null}
         </LinearGradient>
 
         <Card style={styles.benefitsCard}>
@@ -161,26 +124,19 @@ export function ProScreen({ navigation }: Props) {
         ) : (
           <>
             <Button
-              label="Activar Pro · $1.99/mes"
-              icon="star"
-              variant="success"
-              size="lg"
-              onPress={activate}
-            />
-            <Button
-              label="Restaurar compra"
-              icon="refresh-cw"
+              label="Volver a QRCraft"
+              icon="arrow-left"
               variant="secondary"
-              onPress={restore}
+              onPress={() => navigation.goBack()}
             />
             <TextLink
               label="Ver Política de Privacidad"
               onPress={() => navigation.navigate('Legal', { type: 'privacy' })}
             />
             <Text style={styles.smallPrint}>
-              Compra de demostración: no se realizará ningún cargo. En
-              producción, la suscripción se gestiona con Google Play Billing /
-              App Store y puedes cancelarla cuando quieras.
+              No hay cobros ni compras disponibles actualmente. Esta pantalla
+              no activa beneficios; anunciaremos Pro cuando las compras estén
+              integradas correctamente.
             </Text>
           </>
         )}

@@ -110,8 +110,8 @@ export const TERMS_OF_USE: LegalDocument = {
     {
       title: '4. Anuncios y versión Pro',
       paragraphs: [
-        'La versión gratuita incluye anuncios de Google AdMob. QRCraft Pro elimina los anuncios y desbloquea exportaciones en alta definición. Las compras se procesan a través de la tienda correspondiente y están sujetas a sus políticas de reembolso.',
-        'En esta compilación de demostración, la activación de Pro se simula localmente y no genera ningún cargo real.',
+        'La versión gratuita incluye anuncios de Google AdMob. QRCraft Pro y sus beneficios previstos todavía no están disponibles para compra en esta versión. No se procesan pagos ni se concede acceso Pro.',
+        'Cuando se habiliten compras, se procesarán a través de la tienda correspondiente y estarán sujetas a sus políticas, condiciones y reembolsos.',
       ],
     },
     {
