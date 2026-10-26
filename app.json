@@ -1,0 +1,107 @@
+{
+  "expo": {
+    "name": "QRCraft",
+    "slug": "qrcraft",
+    "version": "1.0.0",
+    "scheme": "qrcraft",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#0F172A",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.einenicolassanchez.qrcraft",
+      "infoPlist": {
+        "NSCameraUsageDescription": "QRCraft usa la cámara para escanear códigos QR.",
+        "NSPhotoLibraryUsageDescription": "QRCraft necesita acceso a tus fotos para leer códigos QR desde imágenes.",
+        "NSPhotoLibraryAddUsageDescription": "QRCraft guarda en tu galería los códigos QR que creas.",
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "com.einenicolassanchez.qrcraft",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1E293B",
+        "monochromeImage": "./assets/monochrome-icon.png"
+      },
+      "permissions": [
+        "VIBRATE"
+      ],
+      "predictiveBackGestureEnabled": false
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "QRCraft usa la cámara para escanear códigos QR.",
+          "recordAudioAndroid": false
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "QRCraft necesita acceso a tus fotos para leer códigos QR desde imágenes.",
+          "microphonePermission": false
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "QRCraft necesita acceso a tus fotos para guardar los códigos QR.",
+          "savePhotosPermission": "QRCraft guarda los códigos QR que creas en tu galería.",
+          "isAccessMediaLocationEnabled": false,
+          "granularPermissions": [
+            "photo"
+          ]
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 190,
+          "resizeMode": "contain",
+          "backgroundColor": "#0F172A",
+          "dark": {
+            "backgroundColor": "#0F172A",
+            "image": "./assets/splash-icon.png"
+          }
+        }
+      ],
+      "expo-sharing",
+      [
+        "expo-audio",
+        {
+          "microphonePermission": false,
+          "recordAudioAndroid": false,
+          "enableBackgroundPlayback": false
+        }
+      ],
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-3940256099942544~3347511713",
+          "iosAppId": "ca-app-pub-3940256099942544~1458002511",
+          "userTrackingUsageDescription": "QRCraft usa este identificador para mostrar anuncios más relevantes si aceptas el seguimiento."
+        }
+      ],
+      "expo-font",
+      "expo-asset"
+    ],
+    "extra": {
+      "admob": {
+        "android": {
+          "banner": "ca-app-pub-3940256099942544/6300978111",
+          "interstitial": "ca-app-pub-3940256099942544/1033173712",
+          "rewarded": "ca-app-pub-3940256099942544/5224354917"
+        },
+        "ios": {
+          "banner": "ca-app-pub-3940256099942544/2934735716",
+          "interstitial": "ca-app-pub-3940256099942544/4411468910",
+          "rewarded": "ca-app-pub-3940256099942544/1712485313"
+        }
+      }
+    }
+  }
+}
