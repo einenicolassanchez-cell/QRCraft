@@ -22,6 +22,10 @@ import type { ParsedCode } from '../types';
 import { SCAN_CATEGORY_META } from '../utils/qr';
 import { formatDateTime } from '../utils/date';
 import { shareText } from '../services/qrExport';
+import {
+  analyzeUrlSafety,
+  type UrlSafetyReport,
+} from '../utils/urlSafety';
 
 interface ScanResultModalProps {
   visible: boolean;
@@ -52,7 +56,23 @@ export function ScanResultModal({
   const wifiPassword = parsed.metadata.password ?? '';
   const isWifi = parsed.category === 'wifi';
   const isText = parsed.category === 'text';
+  const isLink = parsed.category === 'url' || parsed.category === 'whatsapp';
   const canCopy = Boolean(parsed.raw);
+  const urlSafety: UrlSafetyReport | null = isLink && parsed.metadata.url
+    ? analyzeUrlSafety(parsed.metadata.url)
+    : null;
+  const safetyColor =
+    urlSafety?.level === 'high'
+      ? colors.danger
+      : urlSafety?.level === 'caution'
+        ? colors.warning
+        : colors.accent;
+  const safetyTitle =
+    urlSafety?.level === 'high'
+      ? 'Riesgo alto'
+      : urlSafety?.level === 'caution'
+        ? 'Revisa este enlace'
+        : 'Sin alertas locales';
 
   const copy = async (value: string, message = 'Copiado al portapapeles') => {
     if (!value) return;
@@ -94,6 +114,25 @@ export function ScanResultModal({
       case 'whatsapp': {
         const url = parsed.metadata.url;
         if (!url) return;
+        if (urlSafety?.level === 'high') {
+          Alert.alert(
+            'QR Guardián detectó un riesgo',
+            'El enlace contiene credenciales dentro de la dirección. El dominio podría no ser el que parece.',
+            [
+              { text: 'Cancelar', style: 'cancel' },
+              {
+                text: 'Abrir de todos modos',
+                style: 'destructive',
+                onPress: () => {
+                  void Linking.openURL(url).catch(() => {
+                    showToast('No se pudo abrir el enlace.', 'error');
+                  });
+                },
+              },
+            ],
+          );
+          return;
+        }
         try {
           await Linking.openURL(url);
         } catch {
@@ -274,11 +313,61 @@ export function ScanResultModal({
               </View>
             ) : null}
 
-            {parsed.category === 'url' || parsed.category === 'whatsapp' ? (
-              <View style={styles.note}>
-                <Feather name="shield" size={14} color={colors.accent} />
-                <Text style={styles.noteText}>
-                  Revisa siempre el destino antes de abrir enlaces escaneados.
+            {urlSafety ? (
+              <View
+                style={[
+                  styles.guardianCard,
+                  { borderColor: `${safetyColor}55` },
+                ]}
+              >
+                <View style={styles.guardianHeader}>
+                  <View
+                    style={[
+                      styles.guardianIcon,
+                      { backgroundColor: `${safetyColor}20` },
+                    ]}
+                  >
+                    <Feather
+                      name={
+                        urlSafety.level === 'clear'
+                          ? 'shield'
+                          : 'alert-triangle'
+                      }
+                      size={17}
+                      color={safetyColor}
+                    />
+                  </View>
+                  <View style={styles.guardianHeading}>
+                    <Text style={styles.guardianBrand}>QR GUARDIÁN</Text>
+                    <Text style={[styles.guardianTitle, { color: safetyColor }]}>
+                      {safetyTitle}
+                    </Text>
+                    <Text style={styles.guardianHost} numberOfLines={1}>
+                      Destino: {urlSafety.hostname}
+                    </Text>
+                  </View>
+                </View>
+                {urlSafety.reasons.length > 0 ? (
+                  urlSafety.reasons.map((reason) => (
+                    <View key={reason} style={styles.guardianReason}>
+                      <Feather
+                        name="alert-circle"
+                        size={13}
+                        color={safetyColor}
+                      />
+                      <Text style={styles.guardianReasonText}>{reason}</Text>
+                    </View>
+                  ))
+                ) : (
+                  <Text style={styles.guardianBody}>
+                    No detectamos señales técnicas comunes. Esto no garantiza
+                    que el sitio sea legítimo.
+                  </Text>
+                )}
+                <Text style={styles.guardianFootnote}>
+                  Análisis local; no enviamos el enlace a ningún servicio.
+                  Nunca compartas contraseñas ni datos bancarios en sitios
+                  inesperados.
                 </Text>
               </View>
             ) : null}
@@ -342,10 +431,10 @@ export function ScanResultModal({
                 />
               ) : null}
             </View>
-            {settings.autoOpenUrls &&
-            (parsed.category === 'url' || parsed.category === 'whatsapp') ? (
+            {settings.autoOpenUrls && isLink ? (
               <Text style={styles.autoOpenHint}>
-                Apertura automática de enlaces activada
+                La apertura automática solo funciona si QR Guardián no detecta
+                señales de riesgo.
               </Text>
             ) : null}
           </View>
@@ -476,6 +565,67 @@ const styles = StyleSheet.create({
     fontSize: 11.5,
     lineHeight: 17,
     color: colors.textMuted,
+  },
+  guardianCard: {
+    gap: 9,
+    backgroundColor: colors.surface,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    padding: 12,
+  },
+  guardianHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  guardianIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  guardianHeading: {
+    flex: 1,
+    gap: 2,
+  },
+  guardianBrand: {
+    fontSize: 9,
+    fontWeight: '800',
+    letterSpacing: 1,
+    color: colors.textFaint,
+  },
+  guardianTitle: {
+    fontSize: 13,
+    fontWeight: '800',
+  },
+  guardianHost: {
+    fontSize: 10,
+    color: colors.textMuted,
+  },
+  guardianReason: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 7,
+  },
+  guardianReasonText: {
+    flex: 1,
+    color: colors.text,
+    fontSize: 11,
+    lineHeight: 16,
+  },
+  guardianBody: {
+    color: colors.textMuted,
+    fontSize: 11,
+    lineHeight: 16,
+  },
+  guardianFootnote: {
+    color: colors.textFaint,
+    fontSize: 10,
+    lineHeight: 15,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: colors.border,
+    paddingTop: 8,
   },
   actions: {
     paddingHorizontal: spacing.xl,

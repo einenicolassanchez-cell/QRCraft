@@ -35,6 +35,7 @@ import { useStore } from '../store/StoreProvider';
 import { colors, gradients, radius, spacing } from '../theme';
 import type { ParsedCode, ScanSource } from '../types';
 import { createHistoryTitle, parseScannedCode } from '../utils/qr';
+import { analyzeUrlSafety } from '../utils/urlSafety';
 
 export function ScanScreen() {
   const insets = useSafeAreaInsets();
@@ -117,6 +118,13 @@ export function ScanScreen() {
       if (parsed.category !== 'url' && parsed.category !== 'whatsapp') return;
       const url = parsed.metadata.url;
       if (!url) return;
+      if (analyzeUrlSafety(url).level !== 'clear') {
+        showToast(
+          'QR Guardián pausó la apertura automática; revisa el aviso antes de continuar.',
+          'info',
+        );
+        return;
+      }
       setTimeout(() => {
         Linking.openURL(url).catch(() => {
           showToast('No se pudo abrir el enlace automáticamente.', 'error');

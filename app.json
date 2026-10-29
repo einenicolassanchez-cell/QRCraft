@@ -2,7 +2,7 @@
   "expo": {
     "name": "QRCraft",
     "slug": "qrcraft",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "scheme": "qrcraft",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,7 +20,7 @@
     },
     "android": {
       "package": "com.einenicolassanchez.qrcraft",
-      "versionCode": 2,
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1E293B",

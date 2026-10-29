@@ -5,6 +5,7 @@ Aplicación móvil para escanear, crear y organizar códigos QR. Está construid
 ## Funciones
 
 - Escáner con cámara, marco y láser animado, linterna, cambio de cámara e importación desde fotos.
+- QR Guardián analiza localmente enlaces escaneados, explica señales como dominios acortados, HTTP sin cifrar o direcciones IP y pausa la apertura automática cuando encuentra alertas. Es una revisión heurística, no consulta servicios externos ni puede garantizar que un enlace sea seguro.
 - Vista de resultados para enlaces, Wi-Fi, texto, contactos, WhatsApp, correo, teléfono, SMS y ubicaciones.
 - Creación de QR para URL, redes Wi-Fi, texto, contactos vCard y enlaces directos a WhatsApp con mensajes sugeridos opcionales.
 - Personalización con 20 colores de módulos, 13 fondos, 6 diseños predefinidos y 3 formas; vista previa, exportación PNG y SVG.
